@@ -1,0 +1,72 @@
+service: aws-node-http-api-project
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x	
+  ecr:
+    images:
+      appimage:
+        path: ./LambdaDocker
+        
+  environment:
+    LAMBDA_SG: "sg-06b50d022aa8be3e6"
+    LAMBDA_SUBNET: "subnet-03084a940d820e926"
+    EFS_ID: "fs-083b3f737768970de"
+    ACCESS_POINT: "arn:aws:elasticfilesystem:us-east-1:778316472973:access-point/fsap-002351b0448eb0e1a"
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - elasticfilesystem:ClientMount
+        - elasticfilesystem:ClientRootAccess
+        - elasticfilesystem:ClientWrite
+        - elasticfilesystem:DescribeMountTargets
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - ec2:CreateNetworkInterface
+        - ec2:DescribeNetWorkInterfaces
+        - ec2:DeleteNetworkInterface
+      Resource: "*"
+
+functions:
+  hello:
+    timeout: 30
+    image:
+      name: appimage
+      	
+      # command:
+      #   - server.handler
+      # entryPoint:
+      #   - '/entrypoint.sh'
+
+    vpc:
+      securityGroupIds:
+        - ${self:provider.environment.LAMBDA_SG}
+      subnetIds:
+        - ${self:provider.environment.LAMBDA_SUBNET}
+    events:
+      - http:
+          path: /
+          method: get
+          	
+    fileSystemConfig:
+      # ARN of EFS Access Point
+      arn: ${self:provider.environment.ACCESS_POINT}
+      # Path under which EFS will be mounted and accessible in Lambda
+      localMountPath: /mnt/efs
+# resources:
+#   Resources:
+#     AcessPointResource:
+#       Type: 'AWS::EFS::AccessPoint'
+#       Properties:
+#         FileSystemId: ${self:provider.environment.EFS_ID}
+#         PosixUser:
+#           Uid: "1000"
+#           Gid: "1000"
+#         RootDirectory:
+#           CreationInfo:
+#             OwnerGid: "1000"
+#             OwnerUid: "1000"
+#             Permissions: "0777"
+          # Path: "/efs"

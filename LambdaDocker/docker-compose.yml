@@ -1,0 +1,12 @@
+version: '3'
+services:
+  lambda-poc:
+    build: .
+    container_name: test-lambda-mongo
+    ports:
+      - 27017:27017
+      - 8080:8080
+    # environment:
+    #   - MONGO_INITDB_ROOT_USERNAME=value
+    #   - MONGO_INITDB_ROOT_PASSWORD=""
+

@@ -55,17 +55,28 @@ RUN apt-get update && \
 # Copy function code
 RUN mkdir -p ${FUNCTION_DIR}
 COPY . ${FUNCTION_DIR}
+
+# Permssions to custom script entrypoint
 RUN chmod +x ${FUNCTION_DIR}/entrypoint.sh
 
 WORKDIR ${FUNCTION_DIR}
 
-
+# intall lambda api caller for prod env
 RUN npm install aws-lambda-ric
 
 RUN npm install
 
 # Grab a fresh slim copy of the image to reduce the final size
 FROM node:14
+
+# install mongodb
+RUN apt update -y
+RUN apt upgrade -y
+RUN apt install gnupg2 wget -y
+RUN wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | apt-key add -
+RUN echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/5.0 main" | tee /etc/apt/sources.list.d/mongodb-org-5.0.list
+RUN apt update -y
+RUN apt install mongodb-org -y
 
 # Include global arg in this stage of the build
 ARG FUNCTION_DIR
@@ -78,6 +89,7 @@ COPY --from=build-image ${FUNCTION_DIR} ${FUNCTION_DIR}
 
 # ENTRYPOINT ["/usr/local/bin/npx", "aws-lambda-ric"]
 
-
+# FUNCTION_DIR + script
 ENTRYPOINT ["/function/entrypoint.sh"]
+# file . function
 CMD ["server.handler"]

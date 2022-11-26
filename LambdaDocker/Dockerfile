@@ -1,41 +1,3 @@
-# # FROM mongo
-
-# FROM amazon/aws-lambda-nodejs:16
-
-	
-# ARG FUNCTION_DIR="/"
-
-# # RUN apt update -y
-# # RUN apt upgrade -y
-# # RUN apt install gnupg2 wget -y
-# # RUN wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | apt-key add -
-# # RUN echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/5.0 main" | tee /etc/apt/sources.list.d/mongodb-org-5.0.list
-# # RUN apt update -y
-# # RUN apt install mongodb-org -y
-
-
-
-# COPY package*.json ./
-
-# RUN npm install
-
-# COPY . .
-
-
-
-# COPY ./entrypoint.sh /entrypoint.sh
-
-# RUN chmod +x entrypoint.sh
-
-# # ENTRYPOINT ["/entrypoint.sh"]
-# # ENTRYPOINT ["/usr/local/bin/npx", "aws-lambda-ric"]
-
-# # ENTRYPOINT ["/usr/local/bin/npx", "aws-lambda-ric"]
-
-
-# # CMD ["server.handler"]
-
-# Define custom function directory
 ARG FUNCTION_DIR="/function"
 
 FROM node:14 as build-image
@@ -59,6 +21,7 @@ COPY . ${FUNCTION_DIR}
 # Permssions to custom script entrypoint
 RUN chmod +x ${FUNCTION_DIR}/entrypoint.sh
 
+
 WORKDIR ${FUNCTION_DIR}
 
 # intall lambda api caller for prod env
@@ -69,17 +32,22 @@ RUN npm install
 # Grab a fresh slim copy of the image to reduce the final size
 FROM node:14
 
+# Include global arg in this stage of the build
+ARG FUNCTION_DIR
+
 # install mongodb
 RUN apt update -y
 RUN apt upgrade -y
+# RUN apt install curl -y
+# RUN curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+# RUN chmod +x /usr/local/bin/docker-compose
+# COPY ./docker-compose.yml ./
+# RUN docker-compose --version
 RUN apt install gnupg2 wget -y
 RUN wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | apt-key add -
 RUN echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/5.0 main" | tee /etc/apt/sources.list.d/mongodb-org-5.0.list
 RUN apt update -y
 RUN apt install mongodb-org -y
-
-# Include global arg in this stage of the build
-ARG FUNCTION_DIR
 
 # Set working directory to function root directory
 WORKDIR ${FUNCTION_DIR}

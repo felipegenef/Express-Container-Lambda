@@ -12,8 +12,8 @@ provider:
   environment:
     LAMBDA_SG: "sg-06b50d022aa8be3e6"
     LAMBDA_SUBNET: "subnet-03084a940d820e926"
-    EFS_ID: "fs-083b3f737768970de"
-    ACCESS_POINT: "arn:aws:elasticfilesystem:us-east-1:778316472973:access-point/fsap-002351b0448eb0e1a"
+    EFS_ID: "fs-0a97a8da09c6058ab"
+    ACCESS_POINT: "arn:aws:elasticfilesystem:us-east-1:778316472973:access-point/fsap-00e1b04db6733ac92"
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -21,12 +21,14 @@ provider:
         - elasticfilesystem:ClientRootAccess
         - elasticfilesystem:ClientWrite
         - elasticfilesystem:DescribeMountTargets
+        - elasticfilesystem:*
       Resource: "*"
     - Effect: Allow
       Action:
         - ec2:CreateNetworkInterface
         - ec2:DescribeNetWorkInterfaces
         - ec2:DeleteNetworkInterface
+        - ec2:*
       Resource: "*"
 
 functions:

@@ -1,11 +1,13 @@
 version: '3'
 services:
-  lambda-poc:
-    build: .
-    container_name: test-lambda-mongo
+  mongo:
+    image: mongo
+    container_name: mongo
     ports:
       - 27017:27017
-      - 8080:8080
+    volumes:
+      - '/mnt/efs:/data/db'
+
     # environment:
     #   - MONGO_INITDB_ROOT_USERNAME=value
     #   - MONGO_INITDB_ROOT_PASSWORD=""

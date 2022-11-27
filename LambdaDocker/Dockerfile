@@ -38,19 +38,9 @@ ARG FUNCTION_DIR
 # install mongodb
 RUN apt update -y
 RUN apt upgrade -y
-# RUN apt install curl -y
-# RUN curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-# RUN chmod +x /usr/local/bin/docker-compose
-# COPY ./docker-compose.yml ./
-# RUN docker-compose --version
-# RUN apt install gnupg2 wget -y
-# RUN wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | apt-key add -
-# RUN echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/5.0 main" | tee /etc/apt/sources.list.d/mongodb-org-5.0.list
-# RUN apt update -y
-# RUN apt install mongodb-org -y
 # SQLITE
 RUN apt install sqlite3 
-RUN apt install openssl -y
+# RUN apt install openssl -y
 
 # Set working directory to function root directory
 WORKDIR ${FUNCTION_DIR}

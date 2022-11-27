@@ -21,8 +21,6 @@ async function buildCache() {
         defaultValue: UUIDV4,
       },
     });
-    await sequelize.authenticate();
-
     await sequelize.sync({ alter: true });
     console.log("**INFO", "Creating new connection");
     return { connection, User };

@@ -1,12 +1,10 @@
 const { Sequelize, UUID, UUIDV4 } = require("sequelize");
 const { resolve } = require("path");
 const serverless = require("serverless-http");
-const morgan = require("morgan");
 const express = require("express");
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(morgan("dev"));
 /**
  * Returns All models from application
  * @returns {{ connection, User:import("sequelize") }}
@@ -65,5 +63,4 @@ app.get("/api/v1/create", async (req, res) => {
     res.status(500).send({ error });
   }
 });
-
-module.exports.handler = serverless(app);
+app.listen(3000, () => console.log(`Listening on: 3000`));

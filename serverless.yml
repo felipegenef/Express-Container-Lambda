@@ -36,12 +36,6 @@ functions:
     timeout: 30
     image:
       name: appimage
-      	
-      # command:
-      #   - server.handler
-      # entryPoint:
-      #   - '/entrypoint.sh'
-
     vpc:
       securityGroupIds:
         - ${self:provider.environment.LAMBDA_SG}
@@ -49,8 +43,9 @@ functions:
         - ${self:provider.environment.LAMBDA_SUBNET}
     events:
       - http:
-          path: /
-          method: get
+          path: /{proxy+}
+          method: ANY
+          cors: true
           	
     fileSystemConfig:
       # ARN of EFS Access Point

@@ -13,7 +13,8 @@ RUN apt-get update && \
     cmake \
     unzip \
     libcurl4-openssl-dev
-
+# SQLITE
+RUN apt install sqlite3 
 # Copy function code
 RUN mkdir -p ${FUNCTION_DIR}
 COPY . ${FUNCTION_DIR}
@@ -34,13 +35,6 @@ FROM node:16
 
 # Include global arg in this stage of the build
 ARG FUNCTION_DIR
-
-# install mongodb
-RUN apt update -y
-RUN apt upgrade -y
-# SQLITE
-RUN apt install sqlite3 
-# RUN apt install openssl -y
 
 # Set working directory to function root directory
 WORKDIR ${FUNCTION_DIR}

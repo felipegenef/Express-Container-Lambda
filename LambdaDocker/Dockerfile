@@ -1,6 +1,6 @@
 ARG FUNCTION_DIR="/function"
 
-FROM node:14 as build-image
+FROM node:16 as build-image
 
 # Include global arg in this stage of the build
 ARG FUNCTION_DIR
@@ -30,7 +30,7 @@ RUN npm install aws-lambda-ric
 RUN npm install
 
 # Grab a fresh slim copy of the image to reduce the final size
-FROM node:14
+FROM node:16
 
 # Include global arg in this stage of the build
 ARG FUNCTION_DIR
@@ -43,11 +43,14 @@ RUN apt upgrade -y
 # RUN chmod +x /usr/local/bin/docker-compose
 # COPY ./docker-compose.yml ./
 # RUN docker-compose --version
-RUN apt install gnupg2 wget -y
-RUN wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | apt-key add -
-RUN echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/5.0 main" | tee /etc/apt/sources.list.d/mongodb-org-5.0.list
-RUN apt update -y
-RUN apt install mongodb-org -y
+# RUN apt install gnupg2 wget -y
+# RUN wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | apt-key add -
+# RUN echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/5.0 main" | tee /etc/apt/sources.list.d/mongodb-org-5.0.list
+# RUN apt update -y
+# RUN apt install mongodb-org -y
+# SQLITE
+RUN apt install sqlite3 
+RUN apt install openssl -y
 
 # Set working directory to function root directory
 WORKDIR ${FUNCTION_DIR}

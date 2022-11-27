@@ -12,8 +12,8 @@ provider:
   environment:
     LAMBDA_SG: "sg-06b50d022aa8be3e6"
     LAMBDA_SUBNET: "subnet-03084a940d820e926"
-    EFS_ID: "fs-0a97a8da09c6058ab"
-    ACCESS_POINT: "arn:aws:elasticfilesystem:us-east-1:778316472973:access-point/fsap-00e1b04db6733ac92"
+    EFS_ID: "fs-016244060c4e19d9f"
+    ACCESS_POINT: "arn:aws:elasticfilesystem:us-east-1:778316472973:access-point/fsap-039228fbb53486976"
   iamRoleStatements:
     - Effect: Allow
       Action:

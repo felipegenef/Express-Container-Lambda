@@ -34,6 +34,7 @@ provider:
 functions:
   hello:
     timeout: 30
+    # memorySize: 10000
     image:
       name: appimage
     vpc:
@@ -41,8 +42,12 @@ functions:
         - ${self:provider.environment.LAMBDA_SG}
       subnetIds:
         - ${self:provider.environment.LAMBDA_SUBNET}
+        - subnet-0b7e9619dbe13e7f8
+        - subnet-0464add1e156dd8e6
+        - subnet-08f40cc9c0449ec1e
+        - subnet-00ef8d9bdad490917
     events:
-      - http:
+      - httpApi:
           path: /{proxy+}
           method: ANY
           cors: true

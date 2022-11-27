@@ -55,7 +55,6 @@ async function handler() {
       data: { email: new Date(), name: "name" },
     });
     const data = await connection.user.findMany();
-    console.log();
     return {
       statusCode: 200,
       body: JSON.stringify(

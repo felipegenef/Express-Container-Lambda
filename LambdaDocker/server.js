@@ -23,6 +23,7 @@ module.exports.handler = async (event) => {
       data: { email: new Date(), name: "name" },
     });
     const data = await connection.user.findMany();
+    console.log(data);
     return {
       statusCode: 200,
       body: JSON.stringify(
@@ -48,36 +49,3 @@ module.exports.handler = async (event) => {
     };
   }
 };
-async function handler() {
-  try {
-    const connection = await buildCache();
-    const response = await connection.user.create({
-      data: { email: new Date(), name: "name" },
-    });
-    const data = await connection.user.findMany();
-    return {
-      statusCode: 200,
-      body: JSON.stringify(
-        {
-          data,
-          // value,
-        },
-        null,
-        2
-      ),
-    };
-  } catch (error) {
-    console.log(error);
-    return {
-      statusCode: 200,
-      body: JSON.stringify(
-        {
-          error,
-        },
-        null,
-        2
-      ),
-    };
-  }
-}
-handler();

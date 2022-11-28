@@ -43,7 +43,7 @@ WORKDIR ${FUNCTION_DIR}
 COPY --from=build-image ${FUNCTION_DIR} ${FUNCTION_DIR}
 
 # ENTRYPOINT ["/usr/local/bin/npx", "aws-lambda-ric"]
-
+EXPOSE 8080
 # FUNCTION_DIR + script
 ENTRYPOINT ["/function/entrypoint.sh"]
 # file . function

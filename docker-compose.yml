@@ -1,12 +1,10 @@
 version: '3'
 services:
-  mongo:
-    image: mongo
-    container_name: mongo
+  micro-service-1:
+    build: ./LambdaDocker
+    container_name: micro-service-1
     ports:
-      - 27017:27017
-    volumes:
-      - '/mnt/efs:/data/db'
+      - 8080:8080
 
     # environment:
     #   - MONGO_INITDB_ROOT_USERNAME=value

@@ -5,6 +5,26 @@ const express = require("express");
 const swaggerJsDocs = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 const { BOOLEAN } = require("sequelize");
+const fs = require("fs/promises");
+const winston = require("winston");
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.json(),
+  defaultMeta: { service: "Micro-service-1", job: "log-job" },
+  transports: [
+    //
+    // - Write all logs with importance level of `error` or less to `error.log`
+    // - Write all logs with importance level of `info` or less to `combined.log`
+    //
+    new winston.transports.File({
+      filename: "/mnt/efs/logs/teste-grafana.log",
+      level: "error",
+    }),
+    new winston.transports.File({
+      filename: "/mnt/efs/logs/teste-grafana-combined.log",
+    }),
+  ],
+});
 const app = express();
 // app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -61,7 +81,13 @@ function buildCache() {
  */
 app.get("/api/info", async (req, res) => {
   try {
-    res.send({ body: req });
+    if (Math.random() > 0.5) {
+      logger.info({ message: "info" });
+      return res.json({ info: "infoLog" });
+    } else {
+      logger.error({ message: "An error has ocurred" });
+      return res.json({ info: "errorLog" });
+    }
   } catch (error) {
     res.send({ error });
   }
@@ -79,11 +105,9 @@ app.get("/api/v1/create", async (req, res) => {
   try {
     const { User } = buildCache();
     // await User.create({});
-    for (let index = 0; index < 40; index++) {
-      await User.create({});
-    }
+
     const data = await User.findAll();
-    res.status(202).send({ data: "finished" });
+    res.status(202).send({ data });
   } catch (error) {
     console.log(error);
     res.status(500).send({ error, data });

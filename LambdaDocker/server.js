@@ -1,75 +1,13 @@
-const { Sequelize, UUID, UUIDV4 } = require("sequelize");
-const { resolve } = require("path");
 const serverless = require("serverless-http");
 const express = require("express");
 const swaggerJsDocs = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
-const { BOOLEAN } = require("sequelize");
-const fs = require("fs/promises");
-const winston = require("winston");
-const logger = winston.createLogger({
-  level: "info",
-  format: winston.format.json(),
-  defaultMeta: { service: "Micro-service-1", job: "log-job" },
-  transports: [
-    //
-    // - Write all logs with importance level of `error` or less to `error.log`
-    // - Write all logs with importance level of `info` or less to `combined.log`
-    //
-    new winston.transports.File({
-      filename: "/mnt/efs/logs/teste-grafana.log",
-      level: "error",
-    }),
-    new winston.transports.File({
-      filename: "/mnt/efs/logs/teste-grafana-combined.log",
-    }),
-  ],
-});
+const logger = require("./logger");
+const buildCache = require("./db");
 const app = express();
 // app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-/**
- * @type {Sequelize}
- */
-let connection;
-/**
- * Returns All models from application
- * @returns {{ connection, User:import("sequelize") }}
- */
-function buildCache() {
-  if (!connection) {
-    const sequelize = new Sequelize({
-      dialect: "sqlite",
-      storage: resolve("../", "mnt", "efs", "data", "database.db"),
-      logging: false,
-    });
-    connection = sequelize;
-    const User = connection.define("users", {
-      id: {
-        type: UUID,
-        primaryKey: true,
-        defaultValue: UUIDV4,
-      },
-      insertBool: BOOLEAN,
-    });
-    // await sequelize.sync({ alter: true });
-    console.log("**INFO", "Creating new connection");
-    return { connection, User };
-  }
 
-  const User = connection.define("users", {
-    id: {
-      type: UUID,
-      primaryKey: true,
-      defaultValue: UUIDV4,
-    },
-    insertBool: BOOLEAN,
-  });
-  console.log("**INFO", "Using existing Connection");
-  // await connection.sync({ alter: true });
-
-  return { connection, User };
-}
 /**
  * @swagger
  * /api/info:
@@ -81,13 +19,37 @@ function buildCache() {
  */
 app.get("/api/info", async (req, res) => {
   try {
-    if (Math.random() > 0.5) {
-      logger.info({ message: "info" });
-      return res.json({ info: "infoLog" });
-    } else {
-      logger.error({ message: "An error has ocurred" });
-      return res.json({ info: "errorLog" });
+    const random = Math.random();
+    let body;
+    if (random < 0.3) {
+      body = { httpMethod: "GET", status: 200 };
+      logger.info(body);
+      return res.json(body);
     }
+    if (random < 0.6) {
+      body = { httpMethod: "POST", status: 202 };
+      logger.info(body);
+      return res.json(body);
+    }
+    if (random < 0.7) {
+      body = { httpMethod: "PATCH", status: 400 };
+      logger.warn(body);
+      return res.json(body);
+    }
+    if (random < 0.8) {
+      body = { httpMethod: "DELETE", status: 200 };
+      logger.info(body);
+      return res.json(body);
+    }
+    if (random < 0.9) {
+      body = { httpMethod: "PUT", status: 500 };
+      logger.error(body);
+      return res.json(body);
+    }
+
+    body = { httpMethod: "PUT", status: 404 };
+    logger.warn(body);
+    return res.json(body);
   } catch (error) {
     res.send({ error });
   }

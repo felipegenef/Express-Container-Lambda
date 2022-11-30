@@ -6,8 +6,10 @@ provider:
   runtime: nodejs14.x	
   ecr:
     images:
-      appimage:
-        path: ./LambdaDocker   
+      image-courses:
+        path: ./LambdaDocker
+      image-books:
+        path: ./LambdaDocker2  
   environment:
     LAMBDA_SG: "sg-06b50d022aa8be3e6"
     LAMBDA_SUBNET: "subnet-03084a940d820e926"
@@ -29,11 +31,11 @@ provider:
       Resource: "*"
 
 functions:
-  hello:
+  ms-courses:
     timeout: 30
     # memorySize: 10000
     image:
-      name: appimage
+      name: image-courses
     vpc:
       securityGroupIds:
         - ${self:provider.environment.LAMBDA_SG}
@@ -41,10 +43,29 @@ functions:
         - ${self:provider.environment.LAMBDA_SUBNET}
     events:
       - httpApi:
-          path: /{proxy+}
+          path: /course/{proxy+}
           method: ANY
-          cors: true
-          	
+          cors: true        	
+    fileSystemConfig:
+      # ARN of EFS Access Point
+      arn: ${self:provider.environment.ACCESS_POINT}
+      # Path under which EFS will be mounted and accessible in Lambda
+      localMountPath: /mnt/efs
+  ms-books:
+    timeout: 30
+    # memorySize: 10000
+    image:
+      name: image-books
+    vpc:
+      securityGroupIds:
+        - ${self:provider.environment.LAMBDA_SG}
+      subnetIds:
+        - ${self:provider.environment.LAMBDA_SUBNET}
+    events:
+      - httpApi:
+          path: /books/{proxy+}
+          method: ANY
+          cors: true        	
     fileSystemConfig:
       # ARN of EFS Access Point
       arn: ${self:provider.environment.ACCESS_POINT}

@@ -17,7 +17,7 @@ app.use(express.json());
  *       200:
  *         description: Returns a mysterious string.
  */
-app.get("/api/info", async (req, res) => {
+app.get("/course/api/info", async (req, res) => {
   try {
     const random = Math.random();
     let body;
@@ -83,7 +83,7 @@ app.get("/api/info", async (req, res) => {
  *       200:
  *         description: Returns a mysterious string.
  */
-app.get("/api/v1/create", async (req, res) => {
+app.get("/course/api/v1/create", async (req, res) => {
   try {
     const { User } = buildCache();
     // await User.create({});
@@ -104,7 +104,7 @@ app.get("/api/v1/create", async (req, res) => {
  *       200:
  *         description: Returns a mysterious string.
  */
-app.get("/api/v1/create2", async (req, res) => {
+app.get("/course/api/v1/create2", async (req, res) => {
   try {
     const { User } = buildCache();
     // await User.create({});
@@ -133,7 +133,7 @@ const docs = swaggerJsDocs({
 });
 app.use(swaggerUi.serve);
 app.get(
-  "/docs",
+  "/course/docs",
   (req, res, next) => {
     console.log("auth here");
     next();

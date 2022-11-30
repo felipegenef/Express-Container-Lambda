@@ -21,8 +21,28 @@ app.get("/api/info", async (req, res) => {
   try {
     const random = Math.random();
     let body;
-    if (random < 0.3) {
+    if (random < 0.1) {
       body = { httpMethod: "GET", status: 200 };
+      logger.info(body);
+      return res.json(body);
+    }
+    if (random < 0.2) {
+      body = { httpMethod: "PATCH", status: 500 };
+      logger.info(body);
+      return res.json(body);
+    }
+    if (random < 0.3) {
+      body = { httpMethod: "GET", status: 500 };
+      logger.error(body);
+      return res.json(body);
+    }
+    if (random < 0.4) {
+      body = { httpMethod: "PATCH", status: 404 };
+      logger.info(body);
+      return res.json(body);
+    }
+    if (random < 0.5) {
+      body = { httpMethod: "GET", status: 302 };
       logger.info(body);
       return res.json(body);
     }
@@ -38,7 +58,7 @@ app.get("/api/info", async (req, res) => {
     }
     if (random < 0.8) {
       body = { httpMethod: "DELETE", status: 200 };
-      logger.info(body);
+      logger.warn(body);
       return res.json(body);
     }
     if (random < 0.9) {
@@ -122,3 +142,4 @@ app.get(
   swaggerUi.setup(docs)
 );
 module.exports.handler = serverless(app);
+// app.listen(8080, () => console.log(`Listening on: 3000`));

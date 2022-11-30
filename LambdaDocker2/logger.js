@@ -7,7 +7,7 @@ const {
 const logger = createLogger({
   level: "info",
   exitOnError: false,
-  defaultMeta: { service: "Courses" },
+  defaultMeta: { service: "Books" },
   // levels: {
   //   error: 0,
   //   warn: 1,
@@ -45,7 +45,7 @@ const logger = createLogger({
       level: "warn",
     }),
     new transports.File({
-      filename: "/mnt/efs/logs/courses.log",
+      filename: "/mnt/efs/logs/books.log",
     }),
   ],
 });

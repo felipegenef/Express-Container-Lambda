@@ -1,0 +1,7 @@
+{
+
+  "development": {
+    "dialect": "sqlite",
+    "storage": "../mnt/efs/data/database.db"
+  }
+}

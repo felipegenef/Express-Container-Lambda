@@ -133,7 +133,7 @@ const docs = swaggerJsDocs({
   },
   apis: ["server.js", "./src/routes*.js"], // files containing annotations as above
 });
-app.use(swaggerUi.serve);
+app.use("/books", swaggerUi.serve);
 app.get(
   "/books/docs",
   (req, res, next) => {

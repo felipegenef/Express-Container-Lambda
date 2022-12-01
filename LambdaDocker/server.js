@@ -131,14 +131,14 @@ const docs = swaggerJsDocs({
   },
   apis: ["server.js", "./src/routes*.js"], // files containing annotations as above
 });
-app.use(swaggerUi.serve);
+app.use("/course", swaggerUi.serve);
 app.get(
   "/course/docs",
+  swaggerUi.serve,
   (req, res, next) => {
     console.log("auth here");
     next();
   },
-
   swaggerUi.setup(docs)
 );
 module.exports.handler = serverless(app);

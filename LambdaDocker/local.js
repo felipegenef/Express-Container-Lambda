@@ -17,17 +17,17 @@ app.use(express.json());
  *       200:
  *         description: Returns a mysterious string.
  */
-app.get("/api/info", async (req, res) => {
+app.get("/course/api/info", async (req, res) => {
   try {
     const random = Math.random();
     let body;
     if (random < 0.1) {
-      body = { httpMethod: "DELETE", status: 404 };
+      body = { httpMethod: "GET", status: 200 };
       logger.info(body);
       return res.json(body);
     }
     if (random < 0.2) {
-      body = { httpMethod: "GET", status: 500 };
+      body = { httpMethod: "PATCH", status: 500 };
       logger.info(body);
       return res.json(body);
     }
@@ -37,8 +37,7 @@ app.get("/api/info", async (req, res) => {
       return res.json(body);
     }
     if (random < 0.4) {
-      body = { httpMethod: "GET", status: 200 };
-
+      body = { httpMethod: "PATCH", status: 404 };
       logger.info(body);
       return res.json(body);
     }
@@ -48,13 +47,12 @@ app.get("/api/info", async (req, res) => {
       return res.json(body);
     }
     if (random < 0.6) {
-      body = { httpMethod: "PATCH", status: 400 };
-
+      body = { httpMethod: "POST", status: 202 };
       logger.info(body);
       return res.json(body);
     }
     if (random < 0.7) {
-      body = { httpMethod: "PATCH", status: 500 };
+      body = { httpMethod: "PATCH", status: 400 };
       logger.warn(body);
       return res.json(body);
     }
@@ -64,12 +62,12 @@ app.get("/api/info", async (req, res) => {
       return res.json(body);
     }
     if (random < 0.9) {
-      body = { httpMethod: "PUT", status: 404 };
+      body = { httpMethod: "PUT", status: 500 };
       logger.error(body);
       return res.json(body);
     }
-    body = { httpMethod: "PUT", status: 500 };
 
+    body = { httpMethod: "PUT", status: 404 };
     logger.warn(body);
     return res.json(body);
   } catch (error) {
@@ -85,7 +83,7 @@ app.get("/api/info", async (req, res) => {
  *       200:
  *         description: Returns a mysterious string.
  */
-app.get("/api/v1/create", async (req, res) => {
+app.get("/course/api/v1/create", async (req, res) => {
   try {
     const { User } = buildCache();
     // await User.create({});
@@ -106,7 +104,7 @@ app.get("/api/v1/create", async (req, res) => {
  *       200:
  *         description: Returns a mysterious string.
  */
-app.get("/api/v1/create2", async (req, res) => {
+app.get("/course/api/v1/create2", async (req, res) => {
   try {
     const { User } = buildCache();
     // await User.create({});
@@ -133,17 +131,15 @@ const docs = swaggerJsDocs({
   },
   apis: ["server.js", "./src/routes*.js"], // files containing annotations as above
 });
-app.use(swaggerUi.serve);
+app.use("/course", swaggerUi.serve);
 app.get(
-  "/docs",
+  "/course/docs",
+  swaggerUi.serve,
   (req, res, next) => {
     console.log("auth here");
     next();
   },
-
   swaggerUi.setup(docs)
 );
-
-//
-module.exports.handler = serverless(app);
-app.listen(8090, () => console.log(`Listening on: 3000`));
+// module.exports.handler = serverless(app);
+app.listen(8080, () => console.log(`Listening on: 3000`));

@@ -17,7 +17,7 @@ app.use(express.json());
  *       200:
  *         description: Returns a mysterious string.
  */
-app.get("/api/info", async (req, res) => {
+app.get("/books/api/info", async (req, res) => {
   try {
     const random = Math.random();
     let body;
@@ -85,7 +85,7 @@ app.get("/api/info", async (req, res) => {
  *       200:
  *         description: Returns a mysterious string.
  */
-app.get("/api/v1/create", async (req, res) => {
+app.get("/books/v1/create", async (req, res) => {
   try {
     const { User } = buildCache();
     // await User.create({});
@@ -106,7 +106,7 @@ app.get("/api/v1/create", async (req, res) => {
  *       200:
  *         description: Returns a mysterious string.
  */
-app.get("/api/v1/create2", async (req, res) => {
+app.get("/books/api/v1/create2", async (req, res) => {
   try {
     const { User } = buildCache();
     // await User.create({});
@@ -133,9 +133,9 @@ const docs = swaggerJsDocs({
   },
   apis: ["server.js", "./src/routes*.js"], // files containing annotations as above
 });
-app.use(swaggerUi.serve);
+app.use("/books", swaggerUi.serve);
 app.get(
-  "/docs",
+  "/books/docs",
   (req, res, next) => {
     console.log("auth here");
     next();
@@ -145,5 +145,5 @@ app.get(
 );
 
 //
-module.exports.handler = serverless(app);
-app.listen(8090, () => console.log(`Listening on: 3000`));
+// module.exports.handler = serverless(app);
+app.listen(8080, () => console.log(`Listening on: 3000`));

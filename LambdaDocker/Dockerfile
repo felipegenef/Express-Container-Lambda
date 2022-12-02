@@ -19,6 +19,7 @@ RUN apt install sqlite3
 RUN mkdir -p ${FUNCTION_DIR}
 COPY . ${FUNCTION_DIR}
 
+
 # Permssions to custom script entrypoint
 RUN chmod +x ${FUNCTION_DIR}/entrypoint.sh
 
@@ -26,9 +27,11 @@ RUN chmod +x ${FUNCTION_DIR}/entrypoint.sh
 WORKDIR ${FUNCTION_DIR}
 
 # intall lambda api caller for prod env
-RUN npm install aws-lambda-ric
+# RUN npm install aws-lambda-ric
 
-RUN npm install
+RUN npm install --production
+COPY tsconfig.json .
+RUN npx tsc server.ts
 
 # Grab a fresh slim copy of the image to reduce the final size
 FROM node:16

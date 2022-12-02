@@ -1,4 +1,4 @@
-import * as swaggerJsDocs from "swagger-jsdoc";
+const swaggerJsDocs = require("swagger-jsdoc");
 import { Router } from "express";
 import * as swaggerUi from "swagger-ui-express";
 const router = Router();
@@ -10,7 +10,7 @@ const docs = swaggerJsDocs({
       version: "1.0.0",
     },
   },
-  apis: ["./*.ts", "./*.js"],
+  apis: ["./routes/*.ts", "./routes/*.js"],
 });
 
 router.get(

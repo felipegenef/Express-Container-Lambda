@@ -21,4 +21,9 @@ export default class CreateUserMongoDb implements UserRepository {
     await userQuerier.save(data);
     return true;
   }
+  async getAll() {
+    const { userQuerier } = await this.getTypeOrmRepos();
+    const users = await userQuerier.find();
+    return users;
+  }
 }

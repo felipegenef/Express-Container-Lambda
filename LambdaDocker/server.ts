@@ -1,4 +1,3 @@
-import { AppDataSource } from "./data-source";
 const serverless = require("serverless-http");
 const express = require("express");
 import userRouter from "./routes/user";
@@ -10,18 +9,10 @@ const Router = express.Router;
 const app = express();
 app.use(express.json());
 const baseRoute = Router();
+
 app.use("/course", baseRoute);
-baseRoute.get("/create", async (req, res) => {
-  try {
-    res.send("salvo");
-  } catch (error) {
-    res.send(error);
-  }
-});
-baseRoute.get("/get", async (req, res) => {
-  res.send({ data: "" });
-});
 baseRoute.use("/user", userRouter);
+
 baseRoute.use("/docs", docsRouter);
 baseRoute.use(swaggerUi.serve);
 exports.handler = serverless(app);

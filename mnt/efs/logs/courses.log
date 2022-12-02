@@ -1,0 +1,56 @@
+{"error":{},"level":"error","message":"Error creating user","service":"Courses"}
+{"level":"info","message":"New Connection Created","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"error":{},"level":"error","message":"Error creating user","service":"Courses"}
+{"level":"info","message":"New Connection Created","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"error":{},"level":"error","message":"Error creating user","service":"Courses"}
+{"level":"info","message":"New Connection Created","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"error":{"code":"SQLITE_CONSTRAINT","driverError":{"code":"SQLITE_CONSTRAINT","errno":19},"errno":19,"parameters":["3c4767cf-2d41-4469-acb2-76fa1727e975","felipeFri Dec 02 2022 15:31:34 GMT-0300 (Horário Padrão de Brasília)","senha"],"query":"INSERT INTO \"users\"(\"id\", \"name\", \"hashed_password\", \"created_at\", \"created_at\", \"created_at\") VALUES (?, ?, ?, datetime('now'), datetime('now'), NULL)"},"level":"error","message":"Error creating user","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"error":{"code":"SQLITE_CONSTRAINT","driverError":{"code":"SQLITE_CONSTRAINT","errno":19},"errno":19,"parameters":["c328718c-8b0d-4fb7-9478-3a5e0d7bfc04","felipeFri Dec 02 2022 15:31:35 GMT-0300 (Horário Padrão de Brasília)","senha"],"query":"INSERT INTO \"users\"(\"id\", \"name\", \"hashed_password\", \"created_at\", \"created_at\", \"created_at\") VALUES (?, ?, ?, datetime('now'), datetime('now'), NULL)"},"level":"error","message":"Error creating user","service":"Courses"}
+{"error":{},"level":"error","message":"Error creating user","service":"Courses"}
+{"level":"info","message":"New Connection Created","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"error":{"code":"SQLITE_CONSTRAINT","driverError":{"code":"SQLITE_CONSTRAINT","errno":19},"errno":19,"parameters":["36bdf4e6-b22d-40d6-a573-a901d51aad57","felipeFri Dec 02 2022 15:34:09 GMT-0300 (Horário Padrão de Brasília)","senha"],"query":"INSERT INTO \"users\"(\"id\", \"name\", \"hashed_password\", \"created_at\", \"updated_at\", \"deleted_at\") VALUES (?, ?, ?, datetime('now'), datetime('now'), NULL)"},"level":"error","message":"Error creating user","service":"Courses"}
+{"error":{},"level":"error","message":"Error creating user","service":"Courses"}
+{"level":"info","message":"New Connection Created","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"level":"info","message":"New Connection Created","service":"Courses"}
+{"level":"info","message":"New Connection Created","service":"Courses"}
+{"error":{"code":"SQLITE_CONSTRAINT","driverError":{"code":"SQLITE_CONSTRAINT","errno":19},"errno":19,"parameters":["52aa48bc-9c4e-45f0-9145-8095ee4b635d","hashed"],"query":"INSERT INTO \"users\"(\"id\", \"name\", \"hashed_password\", \"created_at\", \"updated_at\", \"deleted_at\") VALUES (?, NULL, ?, datetime('now'), datetime('now'), NULL)"},"level":"error","message":"Error creating user","service":"Courses"}
+{"level":"info","message":"New Connection Created","service":"Courses"}
+{"error":{},"level":"error","message":"Error creating user","service":"Courses"}
+{"level":"info","message":"New Connection Created","service":"Courses"}
+{"error":{},"level":"error","message":"Error creating user","service":"Courses"}
+{"level":"info","message":"New Connection Created","service":"Courses"}
+{"error":{},"level":"error","message":"Error creating user","service":"Courses"}
+{"level":"info","message":"New Connection Created","service":"Courses"}
+{"error":{},"level":"error","message":"Error creating user","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"error":{},"level":"error","message":"Error creating user","service":"Courses"}
+{"level":"info","message":"New Connection Created","service":"Courses"}
+{"level":"info","message":"New Connection Created","service":"Courses"}
+{"level":"info","message":"New Connection Created","service":"Courses"}
+{"level":"info","message":"New Connection Created","service":"Courses"}
+{"level":"info","message":"New Connection Created","service":"Courses"}
+{"level":"info","message":"New Connection Created","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"level":"info","message":"Using existing connection","service":"Courses"}
+{"level":"info","message":"New Connection Created","service":"Courses"}
+{"level":"info","message":"New Connection Created","service":"Courses"}

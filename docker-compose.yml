@@ -5,6 +5,10 @@ services:
     container_name: micro-service-1
     ports:
       - 8080:8080
+    environment:
+      DB_TYPE: "sqlite"
+      DB_DATABASE: "../mnt/efs/data/databae.db"
+
   # micro-service-2:
   #   build: ./LambdaDocker2
   #   container_name: micro-service-2

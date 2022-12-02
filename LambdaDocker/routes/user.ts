@@ -1,5 +1,5 @@
 import { Router } from "express";
-
+import createUser from "../useCases/CreateUser";
 const router = Router();
 /**
  * @swagger
@@ -10,7 +10,7 @@ const router = Router();
  *       200:
  *         description: Returns a mysterious string.
  */
-router.post("/create");
+router.get("/create", createUser);
 
 router.get("/");
 

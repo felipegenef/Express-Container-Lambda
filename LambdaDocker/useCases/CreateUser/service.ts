@@ -1,7 +1,7 @@
-import { Request, Response } from "express";
 import UserRepository from "../../data/repositories/interfaces/userRepositoryInteface";
+import Service from "../../Global/interfaces/Service";
 
-export default class CreateUserService {
+export default class CreateUserService implements Service {
   private repository: UserRepository;
   constructor(repository: UserRepository) {
     this.repository = repository;

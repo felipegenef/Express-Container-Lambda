@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
+import Controller from "../../Global/interfaces/ControllerInterface";
 import CreateUserService from "./service";
 
-export default class CreateUserController {
+export default class CreateUserController implements Controller {
   private service: CreateUserService;
   constructor(service: CreateUserService) {
     this.service = service;
@@ -13,9 +14,9 @@ export default class CreateUserController {
         password: password,
         name: name,
       });
-      res.status(202).json({ data });
+      return res.status(202).json({ data });
     } catch (error) {
-      res.status(500).json({ error: "error" });
+      return res.status(500).json({ error: "error" });
     }
   }
 }

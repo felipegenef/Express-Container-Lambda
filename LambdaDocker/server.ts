@@ -13,10 +13,16 @@ app.use(express.json());
 const baseRoute = Router();
 app.use("/course", baseRoute);
 baseRoute.get("/create", async (req, res) => {
-  await prisma.user.create({ data: { email: "email", name: "nome" } });
-  res.send("salvo");
+  try {
+    await prisma.user.create({
+      data: { email: "email" + new Date(), name: "nome" },
+    });
+    res.send("salvo");
+  } catch (error) {
+    res.send(error);
+  }
 });
-baseRoute.get("/create", async (req, res) => {
+baseRoute.get("/get", async (req, res) => {
   const data = await prisma.user.findMany();
   res.send({ data });
 });

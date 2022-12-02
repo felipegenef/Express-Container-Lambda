@@ -11,6 +11,14 @@ provider:
       image-books:
         path: ./LambdaDocker2  
   environment:
+    DATABASE_URL: file:../mnt/efs/data/database.db
+
+
+
+
+
+
+
     LAMBDA_SG: "sg-06b50d022aa8be3e6"
     LAMBDA_SUBNET: "subnet-03084a940d820e926"
     EFS_ID: "fs-016244060c4e19d9f"

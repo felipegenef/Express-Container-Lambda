@@ -27,10 +27,9 @@ RUN chmod +x ${FUNCTION_DIR}/entrypoint.sh
 WORKDIR ${FUNCTION_DIR}
 
 # intall lambda api caller for prod env
-# RUN npm install aws-lambda-ric
+RUN npm install aws-lambda-ric
 
 RUN npm install --production
-COPY tsconfig.json .
 RUN npx tsc server.ts
 
 # Grab a fresh slim copy of the image to reduce the final size

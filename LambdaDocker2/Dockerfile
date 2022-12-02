@@ -28,7 +28,7 @@ WORKDIR ${FUNCTION_DIR}
 # intall lambda api caller for prod env
 RUN npm install aws-lambda-ric
 
-RUN npm install
+RUN npm install --production
 
 # Grab a fresh slim copy of the image to reduce the final size
 FROM node:16

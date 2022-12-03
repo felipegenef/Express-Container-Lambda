@@ -5,9 +5,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=local ts-node-dev server.ts",
-    "migration": "ts-node-dev node_modules/.bin/typeorm migration:create ./migrations/${FILE:-migration}",
-    "migrate": "ts-node node_modules/.bin/typeorm migration:run -d data-source.ts",
-    "migrate-revert": "ts-node-dev node_modules/.bin/typeorm migration:revert -d data-source.ts"
+    "migration": "ts-node-dev --transpileOnly node_modules/.bin/typeorm migration:create ./migrations/${FILE:-migration}",
+    "migrate": "ts-node --transpileOnly node_modules/.bin/typeorm migration:run -d data-source.ts",
+    "migrate-revert": "ts-node-dev --transpileOnly node_modules/.bin/typeorm migration:revert -d data-source.ts"
   },
   "dependencies": {
     "express": "^4.18.2",

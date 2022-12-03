@@ -4,7 +4,7 @@ if [ -z "${AWS_LAMBDA_RUNTIME_API}" ]; then
 mkdir -p ../mnt/efs/data
 mkdir -p ../mnt/efs/logs
 npm run migrate
-NODE_ENV=local node server.js
+NODE_ENV=local node src/server.js
 else
 # AWS
 mkdir -p ../mnt/efs/data

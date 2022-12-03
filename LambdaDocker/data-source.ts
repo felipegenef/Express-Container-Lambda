@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { DataSource, DataSourceOptions } from "typeorm";
+import { DataSource } from "typeorm";
 
 export const AppDataSource = new DataSource({
   //@ts-ignore

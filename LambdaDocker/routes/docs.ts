@@ -6,7 +6,7 @@ const router = Router();
 const docs = swaggerJsDocs({
   swaggerDefinition: {
     info: {
-      title: "Hello World",
+      title: "Micro serviço de Cursos",
       version: "1.0.0",
     },
   },

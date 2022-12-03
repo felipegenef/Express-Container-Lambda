@@ -12,13 +12,9 @@ provider:
         path: ./LambdaDocker2  
   environment:
     DATABASE_URL: file:../mnt/efs/data/database.db
+    DB_TYPE: sqlite
 
-
-
-
-
-
-
+    
     LAMBDA_SG: "sg-06b50d022aa8be3e6"
     LAMBDA_SUBNET: "subnet-03084a940d820e926"
     EFS_ID: "fs-016244060c4e19d9f"
@@ -59,23 +55,23 @@ functions:
       arn: ${self:provider.environment.ACCESS_POINT}
       # Path under which EFS will be mounted and accessible in Lambda
       localMountPath: /mnt/efs
-  ms-books:
-    timeout: 30
-    # memorySize: 10000
-    image:
-      name: image-books
-    vpc:
-      securityGroupIds:
-        - ${self:provider.environment.LAMBDA_SG}
-      subnetIds:
-        - ${self:provider.environment.LAMBDA_SUBNET}
-    events:
-      - httpApi:
-          path: /books/{proxy+}
-          method: ANY
-          cors: true        	
-    fileSystemConfig:
-      # ARN of EFS Access Point
-      arn: ${self:provider.environment.ACCESS_POINT}
-      # Path under which EFS will be mounted and accessible in Lambda
-      localMountPath: /mnt/efs
+  # ms-books:
+  #   timeout: 30
+  #   # memorySize: 10000
+  #   image:
+  #     name: image-books
+  #   vpc:
+  #     securityGroupIds:
+  #       - ${self:provider.environment.LAMBDA_SG}
+  #     subnetIds:
+  #       - ${self:provider.environment.LAMBDA_SUBNET}
+  #   events:
+  #     - httpApi:
+  #         path: /books/{proxy+}
+  #         method: ANY
+  #         cors: true        	
+  #   fileSystemConfig:
+  #     # ARN of EFS Access Point
+  #     arn: ${self:provider.environment.ACCESS_POINT}
+  #     # Path under which EFS will be mounted and accessible in Lambda
+  #     localMountPath: /mnt/efs

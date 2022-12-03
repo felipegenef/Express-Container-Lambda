@@ -12,3 +12,5 @@
 {"error":{},"level":"error","message":"Error creating user","service":"Courses"}
 {"error":{},"level":"error","message":"Error creating user","service":"Courses"}
 {"error":{},"level":"error","message":"Error creating user","service":"Courses"}
+{"level":"error","service":"Courses"}
+{"level":"error","service":"Courses"}

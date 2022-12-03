@@ -4,7 +4,8 @@ import * as swaggerUi from "swagger-ui-express";
 const router = Router();
 
 const docs = swaggerJsDocs({
-  swaggerDefinition: {
+  definition: {
+    openapi: "3.0.0",
     info: {
       title: "Micro serviço de Cursos",
       version: "1.0.0",

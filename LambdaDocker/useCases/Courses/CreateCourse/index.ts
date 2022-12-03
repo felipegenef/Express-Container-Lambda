@@ -1,7 +1,7 @@
 import Controller from "./controller";
 import Service from "./service";
-import SqliteRepository from "../../data/repositories/Strategies/Sqlite/UserRepository";
-import MongoDbRepository from "../../data/repositories/Strategies/MongoDb/UserRepository";
+import SqliteRepository from "../../../data/repositories/Strategies/Sqlite/UserRepository";
+import MongoDbRepository from "../../../data/repositories/Strategies/MongoDb/UserRepository";
 
 const strategiesEnum = {
   Sqlite: new SqliteRepository(),

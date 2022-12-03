@@ -1,6 +1,6 @@
-import UserRepository from "../../data/repositories/interfaces/userRepositoryInteface";
-import Service from "../../Global/interfaces/Service";
-import logger from "../../logger";
+import UserRepository from "../../../data/repositories/interfaces/userRepositoryInteface";
+import Service from "../../../Global/interfaces/Service";
+import logger from "../../../logger";
 
 export default class CreateUserService implements Service {
   private repository: UserRepository;

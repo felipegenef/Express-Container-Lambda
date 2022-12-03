@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import Controller from "../../Global/interfaces/ControllerInterface";
+import Controller from "../../../Global/interfaces/ControllerInterface";
 import CreateUserService from "./service";
-import logger from "../../logger";
+import logger from "../../../logger";
 export default class CreateUserController implements Controller {
   private service: CreateUserService;
   private logger: typeof logger;
@@ -16,7 +16,9 @@ export default class CreateUserController implements Controller {
         password: password,
         name: name,
       });
-      return res.status(202).json({ data });
+      return res
+        .status(202)
+        .json({ data: { message: "Usuário criado com sucesso!" } });
     } catch (error) {
       console.log(error);
       this.logger.error(error);

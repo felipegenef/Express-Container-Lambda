@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import Controller from "../../Global/interfaces/ControllerInterface";
-import logger from "../../logger";
+import Controller from "../../../Global/interfaces/ControllerInterface";
+import logger from "../../../logger";
 import CreateUserService from "./service";
 
 export default class CreateUserController implements Controller {

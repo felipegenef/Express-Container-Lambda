@@ -9,8 +9,19 @@ const Router = express.Router;
 const app = express();
 app.use(express.json());
 const baseRoute = Router();
-
+/**
+ * @swagger
+ * tags:
+ *   - name: Courses
+ *     description: Endpoints referentes a curso
+ */
 app.use("/course", baseRoute);
+/**
+ * @swagger
+ * tags:
+ *   - name: Users
+ *     description: Endpoints referentes a usuário
+ */
 baseRoute.use("/user", userRouter);
 
 baseRoute.use("/docs", docsRouter);

@@ -12,7 +12,8 @@ export default class CreateUserController implements Controller {
   async handle(req: Request, res: Response) {
     try {
       const { name, password } = req.body;
-      const data = await this.service.execute({
+      console.log(req.headers.authorization);
+      await this.service.execute({
         password: password,
         name: name,
       });
@@ -22,7 +23,7 @@ export default class CreateUserController implements Controller {
     } catch (error) {
       console.log(error);
       this.logger.error(error);
-      return res.status(500).json({ error: "error" });
+      return res.status(500).json({ data: { error: "error" } });
     }
   }
 }

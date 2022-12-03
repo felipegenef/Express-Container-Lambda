@@ -9,8 +9,8 @@ export default class GetUsersService implements Service {
     this.repository = repository;
     this.logger = logger;
   }
-  async execute(user: { name: string; password: string }) {
-    const users = await this.repository.getAll();
-    return { users };
+  async execute(userId: string) {
+    const user = await this.repository.getOne(userId);
+    return { user };
   }
 }

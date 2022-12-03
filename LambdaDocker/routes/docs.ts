@@ -2,7 +2,14 @@ const swaggerJsDocs = require("swagger-jsdoc");
 import { Router } from "express";
 import * as swaggerUi from "swagger-ui-express";
 const router = Router();
-
+// Tipos de parameters :
+/**
+ *   /users/{userId}:
+ *  get:
+ *     summary: Get a user by ID
+ *    parameters:
+ *     - in: path | header | query | cookie
+ */
 const docs = swaggerJsDocs({
   definition: {
     openapi: "3.0.0",
@@ -11,7 +18,7 @@ const docs = swaggerJsDocs({
       version: "1.0.0",
     },
   },
-  apis: ["./routes/*.ts", "./routes/*.js"],
+  apis: ["./routes/*.ts", "./routes/*.js", "../server.ts", "../server.js"],
 });
 
 router.get(

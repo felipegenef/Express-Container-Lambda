@@ -26,4 +26,9 @@ export default class CreateUserSqlite implements UserRepository {
     const users = await userQuerier.find();
     return users;
   }
+  async getOne(userId: string) {
+    const { userQuerier } = await this.getTypeOrmRepos();
+    const users = await userQuerier.findOne({ where: { id: userId } });
+    return users;
+  }
 }

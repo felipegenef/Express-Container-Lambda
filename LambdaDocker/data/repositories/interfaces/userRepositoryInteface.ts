@@ -8,4 +8,5 @@ export type createUserType = {
 export default interface UserRepository {
   create: (user: createUserType) => Promise<boolean>;
   getAll: () => Promise<User[]>;
+  getOne: (userId: string) => Promise<User>;
 }

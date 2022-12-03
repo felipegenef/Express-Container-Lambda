@@ -12,12 +12,9 @@ export default class GetUsersController implements Controller {
   }
   async handle(req: Request, res: Response) {
     try {
-      const { name, password } = req.body;
-      const users = await this.service.execute({
-        password: password,
-        name: name,
-      });
-      return res.status(200).json({ users });
+      const { userId } = req.params;
+      const user = await this.service.execute(userId);
+      return res.status(200).json({ user });
     } catch (error) {
       console.log(error);
       this.logger.error({ error });

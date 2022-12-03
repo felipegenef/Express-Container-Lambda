@@ -1,5 +1,7 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
+import { User } from "./entities/User";
+import { Course } from "./entities/Course";
 
 export const AppDataSource = new DataSource({
   //@ts-ignore
@@ -13,6 +15,6 @@ export const AppDataSource = new DataSource({
   synchronize: false,
   logging: false,
 
-  entities: ["./entities/*.ts", "./entities/*.js"],
-  migrations: ["./migrations/*.ts", "./migrations/*.js"],
+  entities: [Course, User],
+  migrations: [__dirname + "/migrations/*.{js,ts}"],
 });

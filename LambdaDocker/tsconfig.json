@@ -2,8 +2,7 @@
   "compilerOptions": {
     "listEmittedFiles": true,
     "target": "ES2022",                          
-    "module": "CommonJS",
-    "moduleResolution": "node", 
+    "module": "commonjs",  
     "lib": ["ESNext"],                   
     "sourceMap": true,
     "esModuleInterop": true,                                             
@@ -14,6 +13,6 @@
     "experimentalDecorators": true,
     "outDir": "./src"
   },
-
+  "include": ["*.ts"],"exclude": []
 }
 

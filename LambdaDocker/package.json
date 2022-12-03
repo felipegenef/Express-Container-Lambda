@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "main": "server.js",
   "license": "MIT",
-  "type": "commonjs",
   "scripts": {
     "dev": "NODE_ENV=local ts-node-dev server.ts",
     "migration": "ts-node-dev node_modules/.bin/typeorm migration:create ./migrations/${FILE:-migration}",

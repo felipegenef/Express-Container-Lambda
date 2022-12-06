@@ -1,20 +1,19 @@
 service: aws-node-http-api-project
-frameworkVersion: '3'
+frameworkVersion: "3"
 
 provider:
   name: aws
-  runtime: nodejs14.x	
+  runtime: nodejs14.x
   ecr:
     images:
       image-courses:
         path: ./LambdaDocker
       image-books:
-        path: ./LambdaDocker2  
+        path: ./LambdaDocker2
   environment:
     DATABASE_URL: file:../mnt/efs/data/database.db
     DB_TYPE: sqlite
 
-    
     LAMBDA_SG: "sg-06b50d022aa8be3e6"
     LAMBDA_SUBNET: "subnet-03084a940d820e926"
     EFS_ID: "fs-016244060c4e19d9f"
@@ -49,7 +48,7 @@ functions:
       - httpApi:
           path: /course/{proxy+}
           method: ANY
-          cors: true        	
+          cors: true
     fileSystemConfig:
       # ARN of EFS Access Point
       arn: ${self:provider.environment.ACCESS_POINT}
@@ -69,7 +68,7 @@ functions:
   #     - httpApi:
   #         path: /books/{proxy+}
   #         method: ANY
-  #         cors: true        	
+  #         cors: true
   #   fileSystemConfig:
   #     # ARN of EFS Access Point
   #     arn: ${self:provider.environment.ACCESS_POINT}

@@ -17,6 +17,8 @@ provider:
         path: ./Ms-Courses
       image-books:
         path: ./Ms-Books
+      image-docs:
+        path: ./Ms-docs
   # Variáveis de Ambiente
   environment:
     DB_TYPE: sqlite
@@ -126,6 +128,19 @@ functions:
       arn: ${self:provider.environment.ACCESS_POINT}
       # Path under which EFS will be mounted and accessible in Lambda
       localMountPath: /mnt/efs
+  ms-docs:
+    timeout: 30
+    image:
+      name: image-docs
+      command:
+        - src/server.handler
+      entryPoint:
+        - /function/entrypoint.sh
+    events:
+      - httpApi:
+          path: /docs/{proxy+}
+          method: ANY
+          cors: true
 #  Teste com efs
 # Resources:
 #   EfsFileSystem:

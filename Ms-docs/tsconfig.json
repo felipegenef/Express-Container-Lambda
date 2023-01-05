@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "listEmittedFiles": true,
+    "target": "ES2022",
+    "module": "commonjs",
+    "lib": ["ESNext"],
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": false,
+    "skipLibCheck": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "outDir": "./src"
+  },
+  "include": ["*.ts"]
+}

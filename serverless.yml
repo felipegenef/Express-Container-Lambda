@@ -4,20 +4,25 @@ frameworkVersion: "3"
 provider:
   name: aws
   runtime: nodejs14.x
+  region: us-east-1
+  vpc:
+    securityGroupIds:
+      - ${ssm:/poc-container-ms/LAMBDA_SG}
+    subnetIds:
+      - ${ssm:/poc-container-ms/LAMBDA_SUBNET}
+  # Imagens de container
   ecr:
     images:
       image-courses:
         path: ./LambdaDocker
       image-books:
         path: ./LambdaDocker2
+  # Variáveis de Ambiente
   environment:
-    DATABASE_URL: file:../mnt/efs/data/database.db
     DB_TYPE: sqlite
-
-    LAMBDA_SG: "sg-06b50d022aa8be3e6"
-    LAMBDA_SUBNET: "subnet-03084a940d820e926"
-    EFS_ID: "fs-016244060c4e19d9f"
-    ACCESS_POINT: "arn:aws:elasticfilesystem:us-east-1:778316472973:access-point/fsap-039228fbb53486976"
+    EFS_ID: ${ssm:/poc-container-ms/EFS_ID}
+    ACCESS_POINT: ${ssm:/poc-container-ms/ACCESS_POINT}
+  # Permissões IAM
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -28,22 +33,63 @@ provider:
       Resource: "*"
     - Effect: Allow
       Action:
+        - sqs:*
+      Resource: "*"
+    - Effect: Allow
+      Action:
         - ec2:CreateNetworkInterface
         - ec2:DescribeNetWorkInterfaces
         - ec2:DeleteNetworkInterface
       Resource: "*"
 
+# SQS da forma facil
+plugins:
+  - serverless-lift
+constructs:
+  duplicate-users:
+    type: queue
+    worker:
+      memorySize: 10000
+      timeout: 300
+      environment:
+        DUPLICATE_USERS_QUEUE_URL: ${construct:duplicate-users.queueUrl}
+      image:
+        name: image-books
+        command:
+          - src/SQS/UserDuplicate/index.handler
+        entryPoint:
+          - /function/entrypoint.sh
+      fileSystemConfig:
+        # ARN of EFS Access Point
+        arn: ${ssm:/poc-container-ms/ACCESS_POINT}
+        # Path under which EFS will be mounted and accessible in Lambda
+        localMountPath: /mnt/efs
+
+resources:
+  Resources:
+    VpcEndpoint:
+      Type: AWS::EC2::VPCEndpoint
+      Properties:
+        VpcEndpointType: Interface
+        # VpcId: vpc-0d77d4c5f2696cae5
+        VpcId: ${ssm:/poc-container-ms/VPC_ID}
+        ServiceName: com.amazonaws.us-east-1.sqs
+
 functions:
   ms-courses:
     timeout: 30
-    # memorySize: 10000
+    memorySize: 10000
+    environment:
+      DATABASE_URL: ${ssm:/poc-container-ms/DATABASE_URL}
+      VPC_ENDPOINT_URL: ${ssm:/poc-container-ms/VPC_ENDPOINT_URL}
+      # VPC_ENDPOINT_URL: !Ref VpcEndpoint.DnsEntries[0].DnsName
+      DUPLICATE_USERS_QUEUE_URL: ${construct:duplicate-users.queueUrl}
     image:
       name: image-courses
-    vpc:
-      securityGroupIds:
-        - ${self:provider.environment.LAMBDA_SG}
-      subnetIds:
-        - ${self:provider.environment.LAMBDA_SUBNET}
+      command:
+        - src/server.handler
+      entryPoint:
+        - /function/entrypoint.sh
     events:
       - httpApi:
           path: /course/{proxy+}
@@ -51,26 +97,28 @@ functions:
           cors: true
     fileSystemConfig:
       # ARN of EFS Access Point
+      arn: ${ssm:/poc-container-ms/ACCESS_POINT}
+      # Path under which EFS will be mounted and accessible in Lambda
+      localMountPath: /mnt/efs
+
+  ms-books:
+    timeout: 30
+    memorySize: 10000
+    environment:
+      DATABASE_URL: ${ssm:/poc-container-ms/DATABASE_URL2}
+    image:
+      name: image-books
+      command:
+        - src/server.handler
+      entryPoint:
+        - /function/entrypoint.sh
+    events:
+      - httpApi:
+          path: /book/{proxy+}
+          method: ANY
+          cors: true
+    fileSystemConfig:
+      # ARN of EFS Access Point
       arn: ${self:provider.environment.ACCESS_POINT}
       # Path under which EFS will be mounted and accessible in Lambda
       localMountPath: /mnt/efs
-  # ms-books:
-  #   timeout: 30
-  #   # memorySize: 10000
-  #   image:
-  #     name: image-books
-  #   vpc:
-  #     securityGroupIds:
-  #       - ${self:provider.environment.LAMBDA_SG}
-  #     subnetIds:
-  #       - ${self:provider.environment.LAMBDA_SUBNET}
-  #   events:
-  #     - httpApi:
-  #         path: /books/{proxy+}
-  #         method: ANY
-  #         cors: true
-  #   fileSystemConfig:
-  #     # ARN of EFS Access Point
-  #     arn: ${self:provider.environment.ACCESS_POINT}
-  #     # Path under which EFS will be mounted and accessible in Lambda
-  #     localMountPath: /mnt/efs

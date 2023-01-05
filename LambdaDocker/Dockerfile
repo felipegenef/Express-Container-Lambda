@@ -47,6 +47,6 @@ COPY --from=build-image ${FUNCTION_DIR} ${FUNCTION_DIR}
 
 EXPOSE 8080
 # FUNCTION_DIR + script
-ENTRYPOINT ["/function/entrypoint.sh"]
+# ENTRYPOINT ["/function/entrypoint.sh"]
 # file . function
-CMD ["src/server.handler"]
+# CMD ["src/server.handler"]

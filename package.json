@@ -1,0 +1,10 @@
+{
+  "name": "Lambda-container-Mongo-POC",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:felipegenef/Lambda-container-Mongo-POC.git",
+  "license": "MIT",
+  "devDependencies": {
+    "serverless-lift": "^1.21.0"
+  }
+}

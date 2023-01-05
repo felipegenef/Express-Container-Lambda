@@ -19,7 +19,6 @@ export default class CreateUserService implements Service {
       hashedPassword: user.password,
     });
     this.logger.info("User Created");
-    this.logger.info(process.env.DUPLICATE_USERS_QUEUE_URL);
     await sqs
       .sendMessage({
         QueueUrl: process.env.DUPLICATE_USERS_QUEUE_URL,

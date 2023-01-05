@@ -49,8 +49,8 @@ constructs:
   duplicate-users:
     type: queue
     worker:
-      memorySize: 10000
-      timeout: 300
+      # memorySize: 10000
+      timeout: 900 #colocar o máximo para garantir a inserção de todos na fila
       environment:
         DUPLICATE_USERS_QUEUE_URL: ${construct:duplicate-users.queueUrl}
       image:
@@ -70,19 +70,24 @@ resources:
     VpcEndpoint:
       Type: AWS::EC2::VPCEndpoint
       Properties:
+        SubnetIds:
+          - ${ssm:/poc-container-ms/LAMBDA_SUBNET}
+        SecurityGroupIds:
+          - ${ssm:/poc-container-ms/LAMBDA_SG}
         VpcEndpointType: Interface
-        # VpcId: vpc-0d77d4c5f2696cae5
         VpcId: ${ssm:/poc-container-ms/VPC_ID}
         ServiceName: com.amazonaws.us-east-1.sqs
+        PrivateDnsEnabled: true
 
 functions:
   ms-courses:
+    dependsOn:
+      - VpcEndpoint
     timeout: 30
-    memorySize: 10000
+    # memorySize: 10000
     environment:
       DATABASE_URL: ${ssm:/poc-container-ms/DATABASE_URL}
-      VPC_ENDPOINT_URL: ${ssm:/poc-container-ms/VPC_ENDPOINT_URL}
-      # VPC_ENDPOINT_URL: !Ref VpcEndpoint.DnsEntries[0].DnsName
+      VPC_ENDPOINT_URL: !Ref VpcEndpoint
       DUPLICATE_USERS_QUEUE_URL: ${construct:duplicate-users.queueUrl}
     image:
       name: image-courses
@@ -100,10 +105,9 @@ functions:
       arn: ${ssm:/poc-container-ms/ACCESS_POINT}
       # Path under which EFS will be mounted and accessible in Lambda
       localMountPath: /mnt/efs
-
   ms-books:
     timeout: 30
-    memorySize: 10000
+    # memorySize: 10000
     environment:
       DATABASE_URL: ${ssm:/poc-container-ms/DATABASE_URL2}
     image:
@@ -122,3 +126,42 @@ functions:
       arn: ${self:provider.environment.ACCESS_POINT}
       # Path under which EFS will be mounted and accessible in Lambda
       localMountPath: /mnt/efs
+#  Teste com efs
+# Resources:
+#   EfsFileSystem:
+#     Type: AWS::EFS::FileSystem
+#     Properties:
+#       Name: volumes
+#       FileSystemTags:
+#         - Key: tag-key
+#           Value: tag-value
+#       PerformanceMode: maxIO # Modo de desempenho: E/S máxima
+#       Encrypted: false # false indica que o EFS não será criptografado
+#       ProvisionedThroughputInMibps: 0 # 0 indica que o throughput será "on-demand"
+#       ThroughputMode: bursting # Modo de taxa de transferência: Intermitente
+#       LifecyclePolicy: # Gerenciamento de ciclo de vida
+#         TransitionToIA: 'AFTER_30_DAYS_OF_INACTIVITY' # Transição para IA: 30 dias desde o último acesso
+#         TransitionToStandard: ON_FIRST_ACCESS # Transição fora do IA: No primeiro acesso
+#       # BackupPolicy: ENABLED # Descomente ou remova essa linha para desabilitar os backups automáticos
+#       BackupPolicy: DISABLED # Altere o valor para DISABLED para desabilitar os backups automáticos
+#   EfsAccessPoint:
+#     Type: AWS::EFS::AccessPoint
+#     Properties:
+#       Name: sqlite-volumes # Alterado para "sqlite-volumes"
+#       AccessPointTags:
+#         - Key: tag-key
+#           Value: tag-value
+#       FileSystemId: !Ref EfsFileSystem
+#       PosixUser:
+#         Gid: 808
+#         Uid: 808
+#       RootDirectory:
+#         CreationInfo:
+#           OwnerGid: 0
+#           OwnerUid: 0
+#           Permissions: '777'
+#         Path: /efs/data
+# AvailabilityZoneId: # Zona de disponibilidade: Padrão
+#   Fn::Select:
+#     - 0
+#     - Fn::GetAZs: !Ref AWS::Region

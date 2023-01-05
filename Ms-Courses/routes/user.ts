@@ -1,6 +1,6 @@
 import { Router } from "express";
 import createUser from "../useCases/Users/CreateUser";
-import getUsers from "../useCases//Users/GetUsers";
+import getUsers from "../useCases/Users/GetUsers";
 import getUserById from "../useCases/Users/GetUsersById";
 const router = Router();
 

@@ -14,9 +14,9 @@ provider:
   ecr:
     images:
       image-courses:
-        path: ./LambdaDocker
+        path: ./Ms-Courses
       image-books:
-        path: ./LambdaDocker2
+        path: ./Ms-Books
   # Variáveis de Ambiente
   environment:
     DB_TYPE: sqlite

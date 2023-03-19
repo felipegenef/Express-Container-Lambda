@@ -1,6 +1,6 @@
 ARG FUNCTION_DIR="/function"
 
-FROM node:16 as build-image
+FROM node:16-slim as build-image
 
 # Include global arg in this stage of the build
 ARG FUNCTION_DIR
@@ -12,6 +12,9 @@ RUN apt-get update && \
     make \
     cmake \
     unzip \
+    autoconf \
+    libtool \
+    python3 \
     libcurl4-openssl-dev
 # SQLITE
 RUN apt install sqlite3 
@@ -33,7 +36,7 @@ RUN npm install --production
 RUN npx tsc --project tsconfig.json
 
 # Grab a fresh slim copy of the image to reduce the final size
-FROM node:16
+FROM node:16-slim
 
 # Include global arg in this stage of the build
 ARG FUNCTION_DIR
